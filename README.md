@@ -1,6 +1,12 @@
 ---
 CS602 Final Project: A Shopping Cart Application
 ---
+
+## Start the App
+1. **Please run `yarn install` to install all the dependencies first**
+2. **Please run `node models/InitialDB.js` to initialize data to database**
+3. **Please run `yarn start` to start the server**
+
 ## Boilerplate Code
 > npm install express\
 > npm install mongodb\
@@ -16,11 +22,8 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-const port = 3000;
-app.listen(port, () => console.log("Server running..."));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
 ```
-
-## Start the App
-1. **Please run `yarn install` to install all the dependencies first**
-2. **Please run `node models/InitialDB.js` to store initial data to database**
-3. **Please run `yarn start` to start the server**
