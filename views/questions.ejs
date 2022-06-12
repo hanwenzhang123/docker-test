@@ -1,0 +1,15 @@
+<%- include('partial/header')%>
+
+<h1>All Questions</h1>
+
+<button onclick="window.location.href='/questions/new'">Create New Question</button>
+
+<% for (let i = 0; i < questions.length; i++) {   %>
+    <h3> Question <%= questions[i].number %> </h3>
+    <p><%= questions[i].question %></p>
+    <form action="/questions/<%= questions[i]._id.toString()%>" method="delete" >
+      <button type="submit">Delete</button>
+    </form>
+<% } %>
+
+<%- include('partial/footer')%>

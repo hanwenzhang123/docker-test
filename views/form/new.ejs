@@ -1,0 +1,20 @@
+<%- include('../partial/header')%>
+
+<div>
+    <h1>Add New Question</h1>
+    <div>
+        <form action="/questions" method="post">
+            <label for="question">Question:</label>
+            <input type="text" id="question" name="question" required><br><br>
+            <label for="answer">Answer:</label>
+            <input type="text" id="answer" name="answer[text]" required><br><br>
+            <label for="score">Score:</label>
+            <input type="number" id="score" name="answer[score]" step="1" min="0" max="10" required><br><br>
+            <input type="submit" value="Submit">
+        </form>
+        <br />
+        <a href="/questions">All Questions</a>
+    </div>
+</div>
+
+<%- include('../partial/footer')%>

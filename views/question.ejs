@@ -8,7 +8,7 @@
         <li>
             <p>
                 <%  if (question.number + 1 <= totalQuestionsNum) { %>
-                    <a href="/question/ <%=  question.number + 1 %>">
+                    <a href="/question/<%=  question.number + 1 %>">
                         <%=  question.answer[i].text  %>
                     </a>
                 <% } else {%>

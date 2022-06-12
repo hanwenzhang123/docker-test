@@ -6,8 +6,7 @@ const Question = require("../models/Question");
 router.get("/questions", async (req, res) => {
   try {
     const questions = await Question.find();
-    const data = res.status(200).json(questions);
-    res.render("home", {data});
+    res.render("questions", { questions });
   } catch (error) {
     res.render("error");
   }
@@ -16,7 +15,7 @@ router.get("/questions", async (req, res) => {
 // get one quiz question
 router.get("/question/:id", async (req, res) => {
   try {
-    const number = req.params.id;
+    const number = req.params.id || req.query.id;
     const question = await Question.findOne({ number });
     const totalQuestionsNum = await Question.count();
 
@@ -33,9 +32,16 @@ router.get("/question/:id", async (req, res) => {
 // get all quiz result
 router.get("/result", async (req, res) => {
   try {
-    // const questions = await Question.find();
-    // const data = res.status(200).json(questions);
     res.render("result");
+  } catch (error) {
+    res.render("error");
+  }
+});
+
+// create new questions
+router.get("/questions/new", async (req, res) => {
+  try {
+    res.render("form/new");
   } catch (error) {
     res.render("error");
   }
@@ -44,22 +50,20 @@ router.get("/result", async (req, res) => {
 // create one quiz question
 router.post("/questions", async (req, res) => {
   try {
-    const { number, title, answer: {score, text} } = req.body;
-
-    const question = await Question.create({
-      number,
-      title,
-      answer: { score, text },
+    const { question, answer } = req.body;
+    await Question.create({
+      question,
+      answer,
     });
 
-    return res.status(201).json(question);
+    res.redirect("/questions");
   } catch (error) {
-    return res.status(500).json({ error: error });
+    res.render("error");
   }
 });
 
 // update one quiz question
-router.put("/question/:id", async (req, res) => {
+router.put("/questions/:id", async (req, res) => {
   try {
     const number = req.params.id;
     const { title, answer } = req.body;
@@ -84,19 +88,22 @@ router.put("/question/:id", async (req, res) => {
 });
 
 // delete one quiz question
-router.delete("/question/:id", async (req, res) => {
+router.get("/questions/:id", async (req, res) => {
   try {
-    const number = req.params.id;
-
-    const question = await Question.deleteOne({ number });
-
-    if (question) {
-      return res.status(404).json();
-    } else {
-      return res.status(204).json();
-    }
+    const _id = req.params.id || req.query.id;
+    await Question.deleteOne({ _id });
+    res.redirect("/questions");
   } catch (error) {
-    return res.status(500).json({ error: error });
+    res.render("error");
+  }
+});
+router.delete("/questions/:id", async (req, res) => {   //not working
+  try {
+    const _id = req.params.id || req.query.id;
+    await Question.deleteOne({ _id });
+    res.redirect("/questions");
+  } catch (error) {
+    res.render("error");
   }
 });
 

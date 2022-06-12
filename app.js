@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 const cors = require('cors');
 const path = require("path");
 const routes = require('./routes/routes');
@@ -9,6 +10,12 @@ require("dotenv").config();
 
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, '/views')); 
+
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 app.use(cors());
 app.use(express.json());
