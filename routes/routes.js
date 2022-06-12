@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Question = require("../models/Question");
 
-// get all quiz questions
+// get all quiz questions for display
 router.get("/questions", async (req, res) => {
   try {
     const questions = await Question.find();
@@ -12,7 +12,7 @@ router.get("/questions", async (req, res) => {
   }
 });
 
-// get one quiz question
+// get one quiz question for display
 router.get("/question/:id", async (req, res) => {
   try {
     const number = req.params.id || req.query.id;
@@ -38,7 +38,7 @@ router.get("/result", async (req, res) => {
   }
 });
 
-// create new questions
+// render create new quiz questions page
 router.get("/questions/new", async (req, res) => {
   try {
     res.render("form/new");
@@ -50,8 +50,10 @@ router.get("/questions/new", async (req, res) => {
 // create one quiz question
 router.post("/questions", async (req, res) => {
   try {
-    const { question, answer } = req.body;
+    const { number, question, answer } = req.body;
+
     await Question.create({
+      number,
       question,
       answer,
     });
@@ -62,42 +64,51 @@ router.post("/questions", async (req, res) => {
   }
 });
 
-// update one quiz question
-router.put("/questions/:id", async (req, res) => {
-  try {
-    const number = req.params.id;
-    const { title, answer } = req.body;
-
-    let question = await Question.findOne({ number });
-
-    if (!question) {
-      question = await Question.create({
-        title,
-        answer,
-      });
-      return res.status(201).json(question);
-    } else {
-      question.title = title;
-      question.answer = answer;
-      await question.save();
-      return res.status(200).json(question);
-    }
-  } catch (error) {
-    return res.status(500).json({ error: error });
-  }
-});
-
-// delete one quiz question
+// render edit quiz questions page
 router.get("/questions/:id", async (req, res) => {
   try {
     const _id = req.params.id || req.query.id;
-    await Question.deleteOne({ _id });
-    res.redirect("/questions");
+    const question = await Question.findOne({ _id });
+
+    if (!question) {
+      res.render("error");
+    } else {
+      res.render("form/edit", { question });
+    }
   } catch (error) {
     res.render("error");
   }
 });
-router.delete("/questions/:id", async (req, res) => {   //not working
+
+// update one quiz question
+router.put("/questions/:id", async (req, res) => {
+  try {
+    const _id = req.params.id || req.query.id;
+    const { number, question, answer } = req.body;
+
+    let foundQuestion = await Question.findOne({ _id });
+
+    if (!foundQuestion) {
+      foundQuestion = await Question.create({
+        number,
+        question,
+        answer,
+      });
+      res.redirect("/questions");
+    } else {
+      foundQuestion.number = number;
+      foundQuestion.question = question;
+      foundQuestion.answer = answer;
+      await foundQuestion.save();
+      res.redirect("/questions");
+    }
+  } catch (error) {
+    res.render("error");
+  }
+});
+
+// delete one quiz question
+router.get("/delete/:id", async (req, res) => {
   try {
     const _id = req.params.id || req.query.id;
     await Question.deleteOne({ _id });

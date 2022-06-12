@@ -7,9 +7,14 @@
 <% for (let i = 0; i < questions.length; i++) {   %>
     <h3> Question <%= questions[i].number %> </h3>
     <p><%= questions[i].question %></p>
-    <form action="/questions/<%= questions[i]._id.toString()%>" method="delete" >
-      <button type="submit">Delete</button>
-    </form>
+    <div style="display:flex">
+        <form action="/questions/<%= questions[i]._id.toString()%>" method="get" >
+            <button type="submit">Edit</button>
+        </form>
+        <form action="/delete/<%= questions[i]._id.toString()%>" method="delete" >
+            <button type="submit">Delete</button>
+        </form>
+    </div>
 <% } %>
 
 <%- include('partial/footer')%>
