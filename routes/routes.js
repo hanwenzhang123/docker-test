@@ -81,12 +81,12 @@ router.get("/questions/:id", async (req, res) => {
 });
 
 // update one quiz question
-router.post("/questions/:id", async (req, res) => {
+router.post("/edit/:id", async (req, res) => {
   try {
     const _id = req.params.id || req.query.id;
     const { number, question, answer } = req.body;
 
-    console.log(req.body);
+    // await Question.findOneAndUpdate({ _id }, { number, question, answer });
 
     let foundQuestion = await Question.findOne({ _id });
 
@@ -94,13 +94,13 @@ router.post("/questions/:id", async (req, res) => {
       foundQuestion = await Question.create({
         number,
         question,
-        answer,
+        // answer,
       });
       res.redirect("/questions");
     } else {
       foundQuestion.number = number;
       foundQuestion.question = question;
-      foundQuestion.answer = answer;
+      // foundQuestion.answer = answer;
       await foundQuestion.save();
       res.redirect("/questions");
     }
