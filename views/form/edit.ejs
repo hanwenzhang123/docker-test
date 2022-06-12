@@ -3,15 +3,17 @@
 <div>
     <h1>Add New Question</h1>
     <div>
-        <form action="/questions/:id" method="put">
+        <form action="/questions/:id" method="post">
             <label for="number">Number (unique):</label>
             <input type="number" id="number" name="number" step="1" min="0" value="<%=question.number %>"><br><br>
             <label for="question">Question:</label>
             <input type="text" id="question" name="question" value="<%=question.question %>" required><br><br>
-            <label for="answer">Answer:</label>
-            <input type="text" id="answer" name="answer[text]" value="<%=question.answer.text %>" required><br><br>
-            <label for="score">Score:</label>
-            <input type="number" id="score" name="answer[score]" step="1" min="0" max="10" value="<%=question.answer.score %>" required><br><br>
+            <% for (let i = 0; i < question.answer.length; i++) {   %>
+                <label for="answer">Answer <%= i + 1 %>:</label>
+                <input type="text" id="answer" name="answer[][text]" value="<%= question.answer[i].text %>" required><br><br>
+                <label for="score">Score <%= i + 1 %>:</label>
+                <input type="number" id="score" name="answer[][score]" step="1" min="0" max="10" value="<%=question.answer[i].score %>" required><br><br>
+            <% } %>
             <input type="submit" value="Submit">
         </form>
         <br />

@@ -81,10 +81,12 @@ router.get("/questions/:id", async (req, res) => {
 });
 
 // update one quiz question
-router.put("/questions/:id", async (req, res) => {
+router.post("/questions/:id", async (req, res) => {
   try {
     const _id = req.params.id || req.query.id;
     const { number, question, answer } = req.body;
+
+    console.log(req.body);
 
     let foundQuestion = await Question.findOne({ _id });
 
