@@ -6,37 +6,50 @@ const Question = require("../models/Question");
 router.get("/questions", async (req, res) => {
   try {
     const questions = await Question.find();
-    return res.status(200).json(questions);
+    const data = res.status(200).json(questions);
+    res.render("home", {data});
   } catch (error) {
-    return res.status(500).json({ error: error });
+    res.render("error");
   }
 });
 
 // get one quiz question
-router.get("/questions/:id", async (req, res) => {
+router.get("/question/:id", async (req, res) => {
   try {
     const number = req.params.id;
-
     const question = await Question.findOne({ number });
+    const totalQuestionsNum = await Question.count();
+
     if (!question) {
-      return res.status(404).json({});
+      res.render("error");
     } else {
-      return res.status(200).json(question);
+      res.render("question", { question, totalQuestionsNum });
     }
   } catch (error) {
-    return res.status(500).json({ error: error });
+    res.render("error");
+  }
+});
+
+// get all quiz result
+router.get("/result", async (req, res) => {
+  try {
+    // const questions = await Question.find();
+    // const data = res.status(200).json(questions);
+    res.render("result");
+  } catch (error) {
+    res.render("error");
   }
 });
 
 // create one quiz question
 router.post("/questions", async (req, res) => {
   try {
-    const { description } = req.body;
-    const { alternatives } = req.body;
+    const { number, title, answer: {score, text} } = req.body;
 
     const question = await Question.create({
-      description,
-      alternatives,
+      number,
+      title,
+      answer: { score, text },
     });
 
     return res.status(201).json(question);
@@ -46,7 +59,7 @@ router.post("/questions", async (req, res) => {
 });
 
 // update one quiz question
-router.put("/questions/:id", async (req, res) => {
+router.put("/question/:id", async (req, res) => {
   try {
     const number = req.params.id;
     const { title, answer } = req.body;
@@ -71,7 +84,7 @@ router.put("/questions/:id", async (req, res) => {
 });
 
 // delete one quiz question
-router.delete("/questions/:id", async (req, res) => {
+router.delete("/question/:id", async (req, res) => {
   try {
     const number = req.params.id;
 
@@ -85,11 +98,6 @@ router.delete("/questions/:id", async (req, res) => {
   } catch (error) {
     return res.status(500).json({ error: error });
   }
-});
-
-// this one is just a test
-router.get("/", (req, res) => {
-  res.send("HELLO WORLD");
 });
 
 module.exports = router;

@@ -1,0 +1,24 @@
+<%- include('partial/header')%>
+
+<h1> Question <%= question.number %> </h1>
+<h2><%= question.question %></h2>
+
+<ul>
+     <% for (let i = 0; i < question.answer.length; i++) {   %>
+        <li>
+            <p>
+                <%  if (question.number + 1 <= totalQuestionsNum) { %>
+                    <a href="/question/ <%=  question.number + 1 %>">
+                        <%=  question.answer[i].text  %>
+                    </a>
+                <% } else {%>
+                    <a href="/result">
+                        <%=  question.answer[i].text  %>
+                    </a>
+                <% } %>
+            </p>
+        </li>
+    <% } %>
+</ul>
+
+<%- include('partial/footer')%>
