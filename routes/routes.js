@@ -105,7 +105,8 @@ router.post("/edit/:id", async (req, res) => {
       res.redirect("/questions");
     }
   } catch (error) {
-    res.render("error");
+    // res.render("error");
+    console.log(error);
   }
 });
 
