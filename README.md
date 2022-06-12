@@ -1,5 +1,5 @@
 ---
-CS602 Final Project: A Shopping Cart Application
+Quiz App: Using Node/Express/Mongoose and Docker
 ---
 
 ## Start the App
