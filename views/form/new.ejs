@@ -1,5 +1,11 @@
 <%- include('../partial/header')%>
 
+<script type="text/javascript">
+  function myFunc(){
+    console.log("Hello");
+  }
+</script>
+
 <div>
     <h1>Add New Question</h1>
     <div>
@@ -8,13 +14,16 @@
             <input type="number" id="number" name="number" step="1" min="0"><br><br>
             <label for="question">Question:</label>
             <input type="text" id="question" name="question" required><br><br>
-            <label for="answer">Answer:</label>
-            <input type="text" id="answer" name="answer[text]" required><br><br>
-            <label for="score">Score:</label>
-            <input type="number" id="score" name="answer[score]" step="1" min="0" max="10" required><br><br>
+            <% for (let i = 0; i < questions.length; i++) {   %>
+                <label for="answer">Answer:</label>
+                <input type="text" id="answer" name="answer[text]" required><br><br>
+                <label for="score">Score:</label>
+                <input type="number" id="score" name="answer[score]" step="1" min="0" max="10" required><br><br>  
+            <% } %>
+            <a style="color: blue; cursor: pointer; text-decoration: underline;" onclick="myFunc()">Add Another Answer</a><br><br>
             <input type="submit" value="Submit">
         </form>
-        <br />
+        <br>
         <a href="/questions">All Questions</a>
     </div>
 </div>
