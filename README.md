@@ -7,6 +7,10 @@ Quiz App: Using Node/Express/Mongoose and Docker
 2. **Please run `node models/InitialDB.js` to initialize data to database**
 3. **Please run `yarn start` to start the server**
 
+## Issues Need to be Fixed
+1. Create new question answers in the array of objects format.
+2. Edit questions with answers in the array of objects format.
+
 ## Boilerplate Code
 > npm install express\
 > npm install mongodb\
@@ -53,7 +57,7 @@ app.use(
   })
 );
 
-app.use(cors());
+app.use(cors());  //providing a Connect/Express middleware that can be used to enable CORS with various options.
 app.use(express.json());
 app.use(routes);
 
